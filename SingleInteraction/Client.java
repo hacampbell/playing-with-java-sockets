@@ -1,7 +1,27 @@
 package SingleInteraction;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+
 public class Client {
-    public static void main (String[] args) {
-        System.out.println("Hello World Client!");
+    private static final int PORT = 53044;
+    private static final String ADDRESS = "127.0.0.1";
+    public static void main (String[] args) throws IOException {
+        // create our socket to connect to the server with
+        Socket connection = new Socket(ADDRESS, PORT);
+
+        // Create buffered reader to be able to read the data we receive
+        // A buffered reader takes an input stream reader, which in turn takes
+        // an input stream.
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        // Read server response
+        String response = input.readLine();
+        System.out.println(response);
+
+        // Close our connection to the server before exiting
+        connection.close();
     }
 }
