@@ -18,7 +18,7 @@ public class Server {
         PrintLog("Client Connected...");
 
         // Create a PritnWriter that allows us to send data to the client
-        PrintWriter writer = new PrintWriter(client.getOutputStream());
+        PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 
         // Write some simple data
         writer.println("Hello World!");
