@@ -15,34 +15,31 @@ import java.net.Socket;
 
 public class Server {
     private static final int PORT = 53044; 
-
-    // We'll hide our resource leak warning for this little toybox project
-    @SuppressWarnings({"resource"})
+    
     public static void main (String[] args) throws IOException {
         // Create the server socket we listen for connections on
         ServerSocket serverSocket = new ServerSocket(PORT);
         PrintLog("Server listening on port" + PORT);
 
-        while (true) {  // Loop so we can keep taking connections
-            
-            // Accept a client connection when we get one
-            Socket client = serverSocket.accept();
-            PrintLog("Client Connected...");
+        try {
+            while (true) {  // Loop so we can keep taking connections
+                
+                // Accept a client connection when we get one
+                Socket client = serverSocket.accept();
+                PrintLog("Client Connected...");
 
-            // Create a PritnWriter that allows us to send data to the client
-            PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+                // Create a PritnWriter that allows us to send data to the client
+                PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 
-            PrintLog("Sending data (\"Hello World\")");
-            writer.println("Hello World!");     // Write some simple data
-            client.close();
+                PrintLog("Sending data (\"Hello World\")");
+                writer.println("Hello World!");     // Write some simple data
+                client.close();
+            }
+        } finally {
+            // Make sure we close our resources.
+            PrintLog("Closing Server Socket");
+            serverSocket.close();
         }
-
-
-        /* Close the server socket, but we'll comment this out because it isn't
-           actually reachable due to the while loop */
-        
-        // PrintLog("Closing Server Socket");
-        // serverSocket.close();
     }
 
 
