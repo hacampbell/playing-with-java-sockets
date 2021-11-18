@@ -7,17 +7,22 @@ import java.util.Random;
 
 public class ClientHandler extends Thread {
     private Socket client;
+    private int id;
 
     public ClientHandler (Socket client) {
         this.client = client;
+        Random rnd = new Random();
+        this.id = rnd.nextInt(10000);
+    }
+
+    public int GetId () {
+        return id;
     }
 
     public void run () {
         try {
-            Random rnd = new Random();
             PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 
-            int id = rnd.nextInt(1000);
             for (int i = 0; i < 50; i++) {
                 writer.println("Welcome, Client " + id);
             }
