@@ -1,2 +1,4 @@
 # playing-with-java-sockets
-A bit of a messy project designed to act as a play ground for learning about sockets in java.
+This is a bit of a messy project that I've used to help me learn about sockets and threads in java. Each folder within the project is a sort of steppingstone towards that goal. For example, the SingleInteraction folder shows the bare bones of making a connection between a server and a client, the Threads folder has an example of being able to display output and take user input simultaneously, etc, etc.
+
+I've made this repo public as an example of how I go about trying to learn new things, and it's by no means supposed to be treated as an actual project. In places there's going to be excessive or lacking comments, and I might not be following best practices, but that's OK. This is just here for me to look at later when I'm working on a real project and need a point of reference. 
