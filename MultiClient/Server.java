@@ -8,18 +8,22 @@ package MultiClient;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
-    public static final int PORT = 53044;
-    public static final int MAXCLIENTS = 5;
+    private static final int PORT = 53044;
+    private static ArrayList<ClientHandler> connectedClients = new ArrayList<ClientHandler>();
+
     public static void main (String[] args) throws IOException {
-        ServerSocket server = new ServerSocket(PORT);
+        ServerSocket server = new ServerSocket(PORT);           // Create our server
+
         try {
             while(true) {
-                Socket client = server.accept();
-                ClientHandler ch = new ClientHandler(client);
-                ch.start();
-                System.out.println("Client connected!");
+                Socket client = server.accept();                // Accept new connections
+                ClientHandler ch = new ClientHandler(client);   // Create a handler for the connection
+                ch.start();                                     // Start the thread for the handler
+                connectedClients.add(ch);                       // Add the client to our list of connections
+                System.out.println("Client connected!");        // Do some logging
             }
         } finally {
             server.close();
