@@ -19,13 +19,8 @@ public class Client {
     private static final String ADDRESS = "127.0.0.1";
     
     public static void main (String[] args) throws IOException {
-        // create our socket to connect to the server with
+        // Create our socket to connect to the server with
         Socket connection = new Socket(ADDRESS, PORT);
-
-        // Create buffered reader to be able to read the data we receive
-        // A buffered reader takes an input stream reader, which in turn takes
-        // an input stream.
-        BufferedReader serverInput = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         // Create a buffered read to get keyboard input form the user.
         BufferedReader clientInput = new BufferedReader(new InputStreamReader(System.in));
@@ -33,11 +28,11 @@ public class Client {
         // Create a print writer so we can send messages to the server
         PrintWriter writer = new PrintWriter(connection.getOutputStream(), true);
 
-        while (true) {
-            // Read server response
-            String response = serverInput.readLine();
-            System.out.println(response);
+        // Run our connection handler thread
+        ClientWorker cw = new ClientWorker(connection);
+        cw.start();
 
+        while (true) {
             // Read input from the client
             String message = clientInput.readLine();
             if (message.equals("quit")) break; // Exit condition
