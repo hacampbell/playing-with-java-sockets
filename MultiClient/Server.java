@@ -17,6 +17,8 @@ public class Server {
     public static void main (String[] args) throws IOException {
         ServerSocket server = new ServerSocket(PORT);           // Create our server
 
+        System.out.println("Listening on port: " + PORT);
+
         try {
             while(true) {
                 Socket client = server.accept();                // Accept new connections

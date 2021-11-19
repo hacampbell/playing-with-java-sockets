@@ -1,6 +1,5 @@
 package MultiClient;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Random;
@@ -25,9 +24,13 @@ public class ClientHandler extends Thread {
 
             for (int i = 0; i < 50; i++) {
                 writer.println("Welcome, Client " + id);
+                System.out.println("Message sent to client " + id);
+
+                Thread.sleep(1000);
             }
             client.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Error from clientHandler of client " + id);
             e.printStackTrace();
         }
     }
