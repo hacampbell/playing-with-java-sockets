@@ -21,11 +21,11 @@ public class Server {
 
         try {
             while(true) {
-                Socket client = server.accept();                // Accept new connections
-                ClientHandler ch = new ClientHandler(client);   // Create a handler for the connection
-                ch.start();                                     // Start the thread for the handler
-                connectedClients.add(ch);                       // Add the client to our list of connections
-                System.out.println("Client connected!");        // Do some logging
+                Socket client = server.accept();                                    // Accept new connections
+                ClientHandler ch = new ClientHandler(client, connectedClients);     // Create a handler for the connection
+                ch.start();                                                         // Start the thread for the handler
+                connectedClients.add(ch);                                           // Add the client to our list of connections
+                System.out.println("Client connected!");                            // Do some logging
             }
         } finally {
             server.close();

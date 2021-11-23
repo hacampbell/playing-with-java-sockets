@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ClientHandler extends Thread {
@@ -12,15 +13,23 @@ public class ClientHandler extends Thread {
     private int id = new Random().nextInt(1000);
     private PrintWriter writer;
     private BufferedReader reader;
+    private ArrayList<ClientHandler> clients;
 
-    public ClientHandler (Socket client) throws IOException {
+    public ClientHandler (Socket client, ArrayList<ClientHandler> clients) throws IOException {
         this.client = client;
+        this.clients = clients;
         reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
         writer = new PrintWriter(client.getOutputStream(), true);
     }
 
     public int GetId () {
         return id;
+    }
+
+    public void MessageAll (String message) {
+        for (ClientHandler c : clients) {
+            c.writer.printf("%d: %s\n", id, message);
+        }
     }
 
     public void run () {
@@ -36,7 +45,8 @@ public class ClientHandler extends Thread {
                     break;
                 }
 
-                writer.println(message);
+                //writer.println(message);
+                MessageAll(message);
             }
         } catch (Exception e) {
             System.out.printf("Error from clientHandler of client %d\n", id);
