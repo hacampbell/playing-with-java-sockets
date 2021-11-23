@@ -35,7 +35,11 @@ public class Client {
         while (true) {
             // Read input from the client
             String message = clientInput.readLine();
-            if (message.equals("quit")) break; // Exit condition
+
+            if (message.equals("quit")) {
+                writer.println(message);
+                break;
+            }
 
             // Write our mesage to the server
             writer.println(message);
