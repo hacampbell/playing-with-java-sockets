@@ -25,20 +25,21 @@ public class ClientHandler extends Thread {
 
     public void run () {
         try {
-            writer.println("Welcome Client " + id + "!");
+            writer.printf("Welcome Client %d!\n", id);
 
             while(true) {
                 String message = reader.readLine();
 
                 if(message.equals("quit")) {
                     client.close();
+                    System.out.printf("Client %d disconnected\n", id);
                     break;
                 }
 
                 writer.println(message);
             }
         } catch (Exception e) {
-            System.out.println("Error from clientHandler of client " + id);
+            System.out.printf("Error from clientHandler of client %d\n", id);
             e.printStackTrace();
         }
     }
