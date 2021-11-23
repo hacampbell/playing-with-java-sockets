@@ -1,17 +1,22 @@
 package MultiClient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Random;
 
 public class ClientHandler extends Thread {
     private Socket client;
-    private int id;
+    private int id = new Random().nextInt(1000);
+    private PrintWriter writer;
+    private BufferedReader reader;
 
-    public ClientHandler (Socket client) {
+    public ClientHandler (Socket client) throws IOException {
         this.client = client;
-        Random rnd = new Random();
-        this.id = rnd.nextInt(10000);
+        reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        writer = new PrintWriter(client.getOutputStream(), true);
     }
 
     public int GetId () {
@@ -20,15 +25,18 @@ public class ClientHandler extends Thread {
 
     public void run () {
         try {
-            PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+            writer.println("Welcome Client " + id + "!");
 
-            for (int i = 0; i < 50; i++) {
-                writer.println("Welcome, Client " + id);
-                System.out.println("Message sent to client " + id);
+            while(true) {
+                String message = reader.readLine();
 
-                Thread.sleep(1000);
+                if(message.equals("quit")) {
+                    client.close();
+                    break;
+                }
+
+                writer.println(message);
             }
-            client.close();
         } catch (Exception e) {
             System.out.println("Error from clientHandler of client " + id);
             e.printStackTrace();
